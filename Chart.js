@@ -39,6 +39,7 @@ function newChartInstance(context, data, options, chartType) {
     }
 }
 
+//Chart Core
 (function(){
 
 //	"use strict";
@@ -1281,7 +1282,6 @@ function newChartInstance(context, data, options, chartType) {
 
 	Chart.Tooltip = Chart.Element.extend({
 		draw : function(){
-
 			var ctx = this.chart.ctx;
 
 			ctx.font = fontString(this.fontSize,this.fontStyle,this.fontFamily);
@@ -1984,6 +1984,7 @@ function newChartInstance(context, data, options, chartType) {
 
 }).call(this);
 
+//Bar Chart
 (function(){
 //	"use strict";
 
@@ -2292,6 +2293,7 @@ function newChartInstance(context, data, options, chartType) {
 
 }).call(this);
 
+//Doughnut & Pie Chart
 (function(){
 //	"use strict";
 
@@ -2490,6 +2492,7 @@ function newChartInstance(context, data, options, chartType) {
 
 }).call(this);
 
+//Line Chart
 (function(){
 //	"use strict";
 
@@ -2524,7 +2527,7 @@ function newChartInstance(context, data, options, chartType) {
 		pointDotStrokeWidth : 1,
 
 		//Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-		pointHitDetectionRadius : 20,
+        pointHitDetectionRadius : 4,
 
 		//Boolean - Whether to show a stroke for datasets
 		datasetStroke : true,
@@ -2870,6 +2873,7 @@ function newChartInstance(context, data, options, chartType) {
 
 }).call(this);
 
+//Polar Area Chart
 (function(){
 //	"use strict";
 
@@ -3132,6 +3136,7 @@ function newChartInstance(context, data, options, chartType) {
 
 }).call(this);
 
+//Radar Chart
 (function(){
 //	"use strict";
 

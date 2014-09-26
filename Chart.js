@@ -1022,7 +1022,9 @@ function newChartInstance(context, data, options, chartType) {
 				} else {
 					each(ChartElements, function(Element) {
 						var tooltipPosition = Element.tooltipPosition();
-						new Chart.Tooltip({
+                        console.log("single tooptip, x:" + Math.round(tooltipPosition.x) +
+                                "y:" + Math.round(tooltipPosition.y));
+                        new Chart.Tooltip({
 							x: Math.round(tooltipPosition.x),
 							y: Math.round(tooltipPosition.y),
 							xPadding: this.options.tooltipXPadding,
@@ -1312,24 +1314,31 @@ function newChartInstance(context, data, options, chartType) {
 
 			ctx.fillStyle = this.fillColor;
 
+            var caretX = this.x;
+            var isOutOfRightBound = false;
+            if(this.x + this.caretHeight + this.cornerRadius > this.chart.width) {
+                isOutOfRightBound = true;
+                caretX -= (this.caretHeight + this.cornerRadius);
+            }
+
 			switch(this.yAlign)
 			{
 			case "above":
 				//Draw a caret above the x/y
-				ctx.beginPath();
-				ctx.moveTo(this.x,this.y - caretPadding);
-				ctx.lineTo(this.x + this.caretHeight, this.y - (caretPadding + this.caretHeight));
-				ctx.lineTo(this.x - this.caretHeight, this.y - (caretPadding + this.caretHeight));
-				ctx.closePath();
-				ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y - caretPadding);
+                ctx.lineTo(caretX + this.caretHeight, this.y - (caretPadding + this.caretHeight));
+                ctx.lineTo(caretX - this.caretHeight, this.y - (caretPadding + this.caretHeight));
+                ctx.closePath();
+                ctx.fill();
 				break;
 			case "below":
 				tooltipY = this.y + caretPadding + this.caretHeight;
 				//Draw a caret below the x/y
 				ctx.beginPath();
 				ctx.moveTo(this.x, this.y + caretPadding);
-				ctx.lineTo(this.x + this.caretHeight, this.y + caretPadding + this.caretHeight);
-				ctx.lineTo(this.x - this.caretHeight, this.y + caretPadding + this.caretHeight);
+                ctx.lineTo(caretX + this.caretHeight, this.y + caretPadding + this.caretHeight);
+                ctx.lineTo(caretX - this.caretHeight, this.y + caretPadding + this.caretHeight);
 				ctx.closePath();
 				ctx.fill();
 				break;
@@ -1338,7 +1347,12 @@ function newChartInstance(context, data, options, chartType) {
 			switch(this.xAlign)
 			{
 			case "left":
-				tooltipX = this.x - tooltipWidth + (this.cornerRadius + this.caretHeight);
+                if(isOutOfRightBound) {
+                    tooltipX = this.x - tooltipWidth + this.cornerRadius;
+                } else {
+                    tooltipX = this.x - tooltipWidth + (this.cornerRadius + this.caretHeight);
+                }
+
 				break;
 			case "right":
 				tooltipX = this.x - (this.cornerRadius + this.caretHeight);

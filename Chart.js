@@ -1298,15 +1298,15 @@ function newChartInstance(context, data, options, chartType) {
 				tooltipRectHeight = this.fontSize + 2*this.yPadding,
 				tooltipHeight = tooltipRectHeight + this.caretHeight + caretPadding;
 
-			if (this.x + tooltipWidth/2 >this.chart.width){
-				this.xAlign = "left";
-			} else if (this.x - tooltipWidth/2 < 0){
-				this.xAlign = "right";
+            if (this.x + tooltipWidth/2 >this.chart.width){
+                this.xAlign = "left";
+            } else if (this.x - tooltipWidth/2 < 0){
+                this.xAlign = "right";
 			}
 
 			if (this.y - tooltipHeight < 0){
 				this.yAlign = "below";
-			}
+            }
 
 
 			var tooltipX = this.x - tooltipWidth/2,
@@ -1315,10 +1315,11 @@ function newChartInstance(context, data, options, chartType) {
 			ctx.fillStyle = this.fillColor;
 
             var caretX = this.x;
-            var isOutOfRightBound = false;
+            var isOutOfRightBorder = false;
+            //check whether tool tip will show out of the right border
             if(this.x + this.caretHeight + this.cornerRadius > this.chart.width) {
-                isOutOfRightBound = true;
-                caretX -= (this.caretHeight + this.cornerRadius);
+                isOutOfRightBorder = true;
+                caretX -= this.caretHeight;
             }
 
 			switch(this.yAlign)
@@ -1347,7 +1348,7 @@ function newChartInstance(context, data, options, chartType) {
 			switch(this.xAlign)
 			{
 			case "left":
-                if(isOutOfRightBound) {
+                if(isOutOfRightBorder) {
                     tooltipX = this.x - tooltipWidth + this.cornerRadius;
                 } else {
                     tooltipX = this.x - tooltipWidth + (this.cornerRadius + this.caretHeight);

@@ -31,3 +31,4 @@ Check out main.qml for more details.
 ## Dependencies
 Qt >= 5.0
 
+==========

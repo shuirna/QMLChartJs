@@ -13,7 +13,7 @@ Window {
     property int row_height: 8;
 
     color: "#ffffff";
-    width: chart_width*3 + 2*chart_spacing;
+    width: chart_width*4 + 3*chart_spacing;
     height: chart_height*2 + chart_spacing + 2*row_height + text_height;
 
   Grid {
@@ -26,7 +26,7 @@ Window {
     width: parent.width;
     height: parent.height - 80;
 
-    columns: 3;
+    columns: 4;
     spacing: chart_spacing;
 
     QChartJs {
@@ -95,5 +95,15 @@ Window {
         chartAnimationDuration: 2000;
     }
 
+    QChartJs {
+        id: chart_stack_bar
+        width: chart_width
+        height: chart_height
+        chartType: ChartTypes.QChartJSTypes.STACKED_BAR
+        chartData: ChartsData.StackedBarData
+        animation: true
+        chartAnimationEasing: Easing.InOutElastic;
+        chartAnimationDuration: 2000;
+    }
   }
 }

@@ -4,5 +4,6 @@ var QChartJSTypes = {
     DOUGHNUT: "Doughnut",
     PIE: "Pie",
     POLARAREA: "PolarArea",
-    RADAR: "Radar"
+    RADAR: "Radar",
+    STACKED_BAR:"StackedBar"
 }

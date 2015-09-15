@@ -1473,11 +1473,21 @@ function newChartInstance(context, data, options, chartType) {
 			this.valuesCount++;
 			this.fit();
 		},
+        updateXLabel : function(indexToUpdate, label){
+            this.xLabels[indexToUpdate] = label;
+            this.fit();
+            this.update();
+        },
 		removeXLabel : function(){
 			this.xLabels.shift();
 			this.valuesCount--;
 			this.fit();
 		},
+        removeXLabelAtIndex : function(indexToRemove){
+            this.xLabels.splice(indexToRemove, 1);
+            this.valuesCount--;
+            this.fit();
+        },
 		// Fitting loop to rotate x Labels and figure out what fits there, and also calculate how many Y steps to use
 		fit: function(){
 			// First we need the width of the yLabels, assuming the xLabels aren't rotated
@@ -3812,11 +3822,41 @@ function newChartInstance(context, data, options, chartType) {
             //Then re-render the chart.
             this.update();
         },
+        insertData : function(valuesArray,label,indexToAdd){
+            //Map the values array for each of the datasets
+            helpers.each(valuesArray,function(value,datasetIndex){
+            if (helpers.isNumber(value)){
+                    //Add a new point for each piece of data, passing any required data to draw.
+                    this.datasets[datasetIndex].bars.splice(indexToAdd, 0, new this.BarClass({
+                    value : value,
+                    label : label,
+                    x: this.scale.calculateBarX(this.scale.valuesCount+1),
+                    y: this.scale.endPoint,
+                    width : this.scale.calculateBarWidth(this.datasets.length),
+                    base : this.scale.endPoint,
+                    strokeColor : this.datasets[datasetIndex].strokeColor,
+                    fillColor : this.datasets[datasetIndex].fillColor
+                    }));
+                }
+            },this);
+
+            this.scale.addXLabel(label);
+            //Then re-render the chart.
+            this.update();
+        },
         removeData : function(){
             this.scale.removeXLabel();
             //Then re-render the chart.
             helpers.each(this.datasets,function(dataset){
                 dataset.bars.shift();
+            },this);
+            this.update();
+        },
+        removeAtIndex: function(indexToRemove){
+            this.scale.removeXLabelAtIndex(indexToRemove);
+            //Then re-render the chart.
+            helpers.each(this.datasets,function(dataset){
+                dataset.bars.splice(indexToRemove, 1);
             },this);
             this.update();
         },
